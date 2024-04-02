@@ -17,4 +17,14 @@ export default defineConfig({
             },
         }),
     ],
+    css: {
+        devSourcemap: true,
+    },
+    server: {
+        host: '0.0.0.0',
+        hmr: {
+            host: 'localhost',
+            clientPort: 5193
+        }
+    },
 });

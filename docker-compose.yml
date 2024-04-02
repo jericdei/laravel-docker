@@ -1,0 +1,46 @@
+services:
+    webserver:
+        build:
+            context: ./.docker
+            args:
+                uid: ${UID:-1000}
+        ports:
+            - 8080:80
+        depends_on:
+            - database
+            - node
+        environment:
+            - APACHE_RUN_USER=#1000
+            - APACHE_RUN_GROUP=#1000
+        volumes:
+            - ./:/var/www/html
+        networks:
+            - internalnetworktest
+
+    database:
+        image: mysql:8.0.35
+        restart: unless-stopped
+        tty: true
+        environment:
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_DATABASE: test_database
+        ports:
+            - 33092:3306
+        volumes:
+            - ./.docker/mysql/data:/var/lib/mysql
+        networks:
+            - internalnetworktest
+
+    node:
+        image: node:21.7.1-alpine
+        restart: unless-stopped
+        tty: true
+        working_dir: /var/www/html
+        volumes:
+            - ./:/var/www/html
+        ports:
+            - 5193:5173
+        networks:
+            - internalnetworktest
+networks:
+    internalnetworktest:
