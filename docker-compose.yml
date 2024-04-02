@@ -1,5 +1,5 @@
 services:
-    webserver:
+    php:
         build:
             context: ./.docker
             args:
@@ -7,7 +7,7 @@ services:
         ports:
             - 8080:80
         depends_on:
-            - database
+            - mysql
             - node
         environment:
             - APACHE_RUN_USER=#1000
@@ -17,13 +17,13 @@ services:
         networks:
             - internalnetworktest
 
-    database:
+    mysql:
         image: mysql:8.0.35
         restart: unless-stopped
         tty: true
         environment:
             MYSQL_ROOT_PASSWORD: root
-            MYSQL_DATABASE: test_database
+            MYSQL_DATABASE: laravel
         ports:
             - 33092:3306
         volumes:
