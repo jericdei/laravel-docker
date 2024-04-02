@@ -1,0 +1,11 @@
+version: "3"
+
+dotenv: [".env"]
+
+tasks:
+  php: docker compose exec php php {{.CLI_ARGS}}
+  artisan: docker compose exec php php artisan {{.CLI_ARGS}}
+  composer: docker compose exec php composer {{.CLI_ARGS}}
+  node: docker compose exec node node {{.CLI_ARGS}}
+  npm: docker compose exec node npm {{.CLI_ARGS}}
+  mysql: docker compose exec mysql mysql -u$DB_USERNAME -p$DB_PASSWORD {{.CLI_ARGS}}
